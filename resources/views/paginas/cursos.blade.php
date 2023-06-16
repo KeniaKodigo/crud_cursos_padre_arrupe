@@ -20,7 +20,12 @@
                             @csrf
                             <button class="btn btn-primary">Editar</button>
                         </form>
-                        <a href="#" class="btn btn-danger">Eliminar</a>
+
+                        <form action="{{ route('eliminar', $item->id ) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-danger">Eliminar</button>
+                        </form>
                     </div>
                 </div>
             </div>

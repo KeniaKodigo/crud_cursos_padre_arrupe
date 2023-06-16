@@ -27,3 +27,9 @@ Route::post('/guardar', [CoursesController::class, 'store'])->name('guardar');
 
 //utilizando rutas con parametro
 Route::get('/editar/{id}', [CoursesController::class, 'editar'])->name('editar');
+
+//ruta para actualizar un curso
+Route::put('/actualizar/{id}', [CoursesController::class, 'update'])->name('actualizar');
+
+//ruta para eliminar un curso
+Route::delete('/eliminar/{id}', [CoursesController::class, 'destroy'])->name('eliminar');

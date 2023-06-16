@@ -39,7 +39,34 @@ class CoursesController extends Controller
     //metodo para obtener la informacion de un curso en especifico
     public function editar($id){
         //select * from table where id = ?
+        //select from table INNER JOIN table ON table.campo = table.campo where id = ?
+        $curso = Courses::join('instructor','courses.id_instructor', '=', 'instructor.id')->select('courses.*', 'instructor.name as instructor')->find($id);
+        //$curso = Courses::find($id);
+        //select * from instructores
+        $instructor = Instructores::all();
+        return view("paginas.editar", array("curso" => $curso, "instructor" => $instructor));
+    }
+
+    //metodo para actualizar los datos de un curso por su id
+
+    public function update(Request $request, $id){
+        //select * from courses where id = ?
         $curso = Courses::find($id);
-        return view("paginas.editar", array("curso" => $curso));
+        $curso->title = $request->post('titulo');
+        $curso->description = $request->post('descripcion');
+        $curso->price = $request->post('precio');
+        $curso->id_instructor = $request->post('instructores');
+        //UPDATE table set campo = valor WHERE id = ?
+        $curso->update();
+        //redireccionamos a la ruta de la lista de los cursos
+        return redirect()->route('cursos');
+    }
+
+    //metodo para eliminar un curso
+    public function destroy($id){
+        //delete from table where id = ?
+        $cursos = Courses::where('id', '=', $id)->delete();
+
+        return redirect()->route('cursos');
     }
 }
