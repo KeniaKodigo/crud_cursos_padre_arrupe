@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Courses;
 use App\Models\Instructores;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CoursesController extends Controller
 {
@@ -25,15 +26,42 @@ class CoursesController extends Controller
 
     //metodo para registrar un curso
     public function store(Request $request){
+        if($request->hasFile('imagen')){
+            //$imgPath= $request->file('imagen')->store('public/img');
+            $imagen = $request->file('imagen');
+
+            $nombre_imagen = Str::slug($request->post('titulo')).".".$imagen->guessExtension();
+
+            $ruta = public_path("img/");
+
+            copy($imagen->getRealPath(),$ruta.$nombre_imagen);
+        }else{
+            //$imgPath= null;
+            $nombre_imagen = null;
+        }
         //insert into table (campos) values (valores) => save()
         $curso = new Courses();
         $curso->title = $request->post('titulo');
         $curso->description = $request->post('descripcion');
         $curso->price = $request->post('precio');
+        $curso->imagen = $nombre_imagen;
         $curso->id_instructor = $request->post('instructores');
         $curso->save();
         //redireccionamos a la ruta de la lista de los cursos
         return redirect()->route('cursos');
+        
+        //apartado de las imagenes
+        /*if($request->hasFile('imagen')){
+            $imagen = $request->file('imagen');
+
+            $nombre_imagen = Str::slug($request->post('titulo')).".".$imagen->guessExtension();
+
+            $ruta = public_path("img/");
+
+            copy($imagen->getRealPath(),$ruta,$nombre_imagen);
+
+            $curso->imagen = $nombre_imagen;
+        }*/
     }
 
     //metodo para obtener la informacion de un curso en especifico
