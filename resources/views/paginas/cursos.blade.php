@@ -9,7 +9,7 @@
         @foreach ($cursos as $item)
             <div class="col-md-4 mb-3">
                 <div class="card">
-                    <img src="{{ url('/') }}/img/curso.jpg" class="card-img-top" alt="">
+                    <img src="{{ url('/') }}/img/{{ $item->imagen }}" class="card-img-top" alt="">
                     <div class="card-body">
                         <h5 class="card-title">{{ $item->title }}</h5>
                         <p class="card-text">{{ $item->description }}</p>
