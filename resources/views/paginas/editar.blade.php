@@ -3,7 +3,7 @@
 @section('contenido')
 <h1 class="text-center text-success">Editar Curso</h1>
 
-<form action="{{ route('actualizar', $curso->id) }}" method="POST">
+<form action="{{ route('actualizar', $curso->id) }}" method="POST" enctype="multipart/form-data">
     @method('PUT')
     @csrf
     <label for="">Titulo</label>
@@ -14,6 +14,13 @@
 
     <label for="">Precio</label>
     <input type="text" class="form-control" name="precio" value="{{ $curso->price }}">
+
+    <label for="">Imagen Previa</label>
+    <input type="file" class="form-control" name="imagen">
+
+    <input type="hidden" name="imagen_previa" value="{{ $curso->imagen }}">
+    <br>
+    <img src="{{ url('/') }}/img/{{ $curso->imagen }}" class="card-img-top w-25 mb-3" alt=""><br>
 
     <label for="">Seleccione un Instructores</label>
     <select name="instructores" class="form-control">

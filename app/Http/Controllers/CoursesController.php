@@ -78,11 +78,25 @@ class CoursesController extends Controller
     //metodo para actualizar los datos de un curso por su id
 
     public function update(Request $request, $id){
+        if($request->hasFile('imagen')){
+            //$imgPath= $request->file('imagen')->store('public/img');
+            $imagen = $request->file('imagen');
+
+            $nombre_imagen = Str::slug($request->post('titulo')).".".$imagen->guessExtension();
+
+            $ruta = public_path("img/");
+
+            copy($imagen->getRealPath(),$ruta.$nombre_imagen);
+        }else{
+            //$imgPath= null;
+            $nombre_imagen = $request->post('imagen_previa');
+        }
         //select * from courses where id = ?
         $curso = Courses::find($id);
         $curso->title = $request->post('titulo');
         $curso->description = $request->post('descripcion');
         $curso->price = $request->post('precio');
+        $curso->imagen = $nombre_imagen;
         $curso->id_instructor = $request->post('instructores');
         //UPDATE table set campo = valor WHERE id = ?
         $curso->update();
